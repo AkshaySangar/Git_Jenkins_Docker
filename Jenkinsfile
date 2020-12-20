@@ -54,6 +54,8 @@ pipeline {
 	post {  
          always {  
 			 echo 'This will always run'  
+			 emailext body: 'Build Successful', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Build Status'  
+
          }  
          success {  
              emailext body: 'Build Successful', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Build Status'  
