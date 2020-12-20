@@ -53,15 +53,10 @@ pipeline {
     }
 	post {  
          always {  
-			 echo 'This will always run'  
-			 emailext body: 'Build Successful', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Build Status'  
+			 emailext attachLog: true, body: "${currentBuild.result}: ${BUILD_URL}", compressLog: true, replyTo: 'akshaysangar9@gmail.com',
+       subject: "Build Notification: ${JOB_NAME}-Build# ${BUILD_NUMBER} ${currentBuild.result}", to: 'akshaysangar9@gmail.com'
 
          }  
-         success {  
-             emailext body: 'Build Successful', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Build Status'  
-         }  
-         failure {  
-				emailext body: 'Build Failure', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Build Status'         }  
          
      }  
 }
