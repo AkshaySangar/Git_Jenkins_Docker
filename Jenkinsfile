@@ -49,13 +49,17 @@ pipeline {
                 }
             }
         }
-		stage('Email'){
-            steps{
-                always{
-                    mail to:"akshaysangar9@gmail.com", subject:"Status of pipeline: ${currentBuild.fullDisplayName}",
-                    body: "Bank Management System Application keeps the track of the books present in the library. \n ${env.BUILD_URL} has result ${currentBuild.result}."
-                }
-            }
-        }
+		
     }
+	post {  
+         always {  
+			 echo 'This will always run'  
+         }  
+         success {  
+             emailext body: 'Build Successful', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Build Status'  
+         }  
+         failure {  
+				emailext body: 'Build Failure', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Build Status'         }  
+         
+     }  
 }
